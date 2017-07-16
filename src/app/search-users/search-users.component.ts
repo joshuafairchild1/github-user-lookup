@@ -43,4 +43,17 @@ export class SearchUsersComponent implements OnInit {
       )
     }
   }
+
+  getDetails(username: string): void {
+    this.githubService.getDetailsByUsername(username).subscribe(
+      details => {
+        this.selectedUser = details;
+        this.selected = true;
+      },
+      error => {
+        this.selected = false;
+        console.log(error);
+      }
+    )
+  }
 }

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 export class GithubService {
 
   private userSearchEndpoint: string = 'https://api.github.com/search/users?q=';
-  private userDetailEndpoint: string = 'https://api.github.com/users';
+  private userDetailEndpoint: string = 'https://api.github.com/users/';
 
   constructor(
     private http: Http
