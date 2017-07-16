@@ -1,0 +1,18 @@
+<h1 class="text-center">GitHub User Lookup</h1>
+<div class="form-group">
+  <input class='form-control' placeholder="Location name" #location (keyup.enter)='search(location.value, language.value); location.value=""; language.value=""'>
+</div>
+<div class="form-group">
+  <input class='form-control' placeholder='Language (e.g. JavaScript)' #language (keyup.enter)='search(location.value, language.value); location.value=""; language.value=""'>
+</div>
+<button class='btn btn-primary' (click)='search(location.value, language.value); location.value=""; language.value=""'>Search</button>
+
+<p style="color:red;" *ngIf="error_text">{{error_text}}</p>
+<div *ngFor='let user of results'>
+  <div>
+    <img src="{{user.avatar_url}}" width="100" height="100">
+  </div>
+  <div>
+    <a href="{{user.html_url}}">{{user.login}}</a>
+  </div>
+</div>
