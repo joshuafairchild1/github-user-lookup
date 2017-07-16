@@ -13,7 +13,9 @@ export class SearchUsersComponent implements OnInit {
 
   private results: any[] = [];
   private selected: boolean = false;
+  private searched: boolean = false;
   private selectedUser: any;
+  private searchedUser: any;
   private error_text: string = '';
 
   constructor(
@@ -25,6 +27,7 @@ export class SearchUsersComponent implements OnInit {
 
   search(location: string, language: string): void {
     this.selected = false;
+    this.searched = false;
     this.error_text = '';
 
     if (location || language) {
@@ -40,8 +43,23 @@ export class SearchUsersComponent implements OnInit {
           this.error_text = 'Sorry, no users found!';
           console.log(error);
         }
-      )
+      );
     }
+  }
+
+  userLookup(username: string): void {
+    this.selected = false;
+    this.results = [];
+    this.githubService.getDetailsByUsername(username).subscribe(
+      details => {
+        this.searchedUser = details;
+        this.searched = true;
+      },
+      error => {
+        this.searched = false;
+        console.log(error);
+      }
+    )
   }
 
   getDetails(username: string): void {
@@ -49,11 +67,12 @@ export class SearchUsersComponent implements OnInit {
       details => {
         this.selectedUser = details;
         this.selected = true;
+        console.log(details)
       },
       error => {
         this.selected = false;
         console.log(error);
       }
-    )
+    );
   }
 }

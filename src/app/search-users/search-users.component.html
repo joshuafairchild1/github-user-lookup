@@ -6,15 +6,46 @@
   </div>
   <div class="row search-area">
     <div class="col-md-12 col-md-offset-3">
-      <div class="form-inline">
+      <div class="form-inline form-group">
         <input placeholder="Location Name" class="form-control input-lg input" #place (keyup.enter)="search(place.value, language.value); place.value=''; language.value='';" />
         <input placeholder="Language (e.g. JavaScript)" class="form-control input-lg input" #language (keyup.enter)="search(place.value, language.value); place.value=''; language.value='';" />
         <button class="btn btn-primary btn-lg" (click)="search(place.value, language.value); place.value=''; language.value='';">Search</button>
+      </div>
+      <div class="form-inline user-search">
+        <h3 class="text-left">Or look up a specific user</h3>
+        <input class='form-control' placeholder="Username" (keyup.enter)="userLookup(username.value); username.value=''" #username>
+        <button class='btn btn-primary' (click)="userLookup(username.value); username.value=''">Search</button>
       </div>
     </div>
   </div>
   <div class="row">
     <p class="text-center" style="padding: 1em; color:red;" *ngIf="error_text">{{ error_text }}</p>
+    <div class="well col-md-6 col-md-offset-3" *ngIf='searched'>
+      <div class="box text-center">
+        <img src="{{searchedUser.avatar_url}}" class="img-responsive img-circle">
+        <div class="details">
+          <div *ngIf="searchedUser.name"><a href="{{ searchedUser.html_url }}" target="_blank"><h3>{{ searchedUser.name }} </h3></a></div>
+          <hr>
+          <div *ngIf="searchedUser.email">Email: {{ searchedUser.email }}</div>
+          <hr>
+          <div *ngIf="searchedUser.location">Location: {{ searchedUser.location }}</div>
+          <hr>
+          <div *ngIf="searchedUser.bio">Bio: {{ searchedUser.bio }}</div>
+          <hr>
+          <div *ngIf="searchedUser.updated_at">Last Seen: {{ searchedUser.updated_at | date }}</div>
+          <hr>
+          <div *ngIf="searchedUser.public_repos">Repos: {{ searchedUser.public_repos }}</div>
+          <hr>
+          <div *ngIf="searchedUser.public_gists">Gists: {{ searchedUser.public_gists }}</div>
+          <hr>
+          <div *ngIf="searchedUser.followers">Followers: {{ searchedUser.followers }}</div>
+          <hr>
+          <div *ngIf="searchedUser.created_at">Joined github: {{ searchedUser.created_at | date }}</div>
+          <hr>
+          <button class="btn btn-sm btn-default" (click)="searched = !searched">Hide</button>
+        </div>
+      </div>
+    </div>
     <div [ngClass]="{'col-md-9': selected, 'col-md-12': !selected}">
       <div class="user col-md-2 text-center" *ngFor="let user of results" (click)="getDetails(user.login)">
         <div class="img_container">
@@ -47,7 +78,7 @@
           <hr>
           <div *ngIf="selectedUser.created_at">Joined github: {{ selectedUser.created_at | date }}</div>
           <hr>
-          <button class="btn btn-sm btn-warning" (click)="selected = !selected">Hide</button>
+          <button class="btn btn-sm btn-default" (click)="selected = !selected">Hide</button>
         </div>
       </div>
     </div>
